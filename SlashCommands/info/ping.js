@@ -10,6 +10,9 @@ module.exports = {
      * @param {CommandInteraction} interaction
      * @param {String[]} args
      */
+    hasPermission: async (client, interaction) => {
+        return true;
+    },
     run: async (client, interaction, args) => {
         interaction.followUp({ content: `${client.ws.ping}ms!` });
     },

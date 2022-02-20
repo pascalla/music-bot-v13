@@ -1,5 +1,5 @@
 {
-    "token": "",
-    "prefix": "!",
-    "mongooseConnectionString": ""
+    "token": "NTg2MzMxNzU1NzA4MTUzOTIw.XPmeAA.ebn0mzFT80dQC79UT7k9d6myGtM",
+    "prefix": "tfm",
+    "mongooseConnectionString": "mongodb://localhost/discord-bot"
 }

@@ -1,4 +1,4 @@
-const client = require("../index");
+const client = require("../bot");
 
 client.on("interactionCreate", async (interaction) => {
     // Slash Command Handling
@@ -21,7 +21,13 @@ client.on("interactionCreate", async (interaction) => {
         }
         interaction.member = interaction.guild.members.cache.get(interaction.user.id);
 
-        cmd.run(client, interaction, args);
+        const hasPermission = await cmd.hasPermission(client, interaction);
+
+        if(hasPermission) {
+            cmd.run(client, interaction, args);
+        } else {
+            return interaction.followUp({ content: "You do not have permission to do that." });
+        }
     }
 
     // Context Menu Handling

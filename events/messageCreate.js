@@ -1,4 +1,4 @@
-const client = require("../index");
+const client = require("../bot");
 
 client.on("messageCreate", async (message) => {
     if (
@@ -16,5 +16,12 @@ client.on("messageCreate", async (message) => {
     const command = client.commands.get(cmd.toLowerCase()) || client.commands.find(c => c.aliases?.includes(cmd.toLowerCase()));
 
     if (!command) return;
-    await command.run(client, message, args);
+
+    const hasPermission = await command.hasPermission(client, message);
+
+    if(hasPermission) {
+        await command.run(client, message, args);
+    } else {
+        return message.reply('You do not have permission to do that');
+    }
 });

@@ -1,16 +1,8 @@
-const { Client, Collection } = require("discord.js");
+const { ShardingManager } = require('discord.js');
+const config = require("./config.json");
 
-const client = new Client({
-    intents: 32767,
-});
-module.exports = client;
+const manager = new ShardingManager('./bot.js', { token:config.token, totalShards: 'auto'});
 
-// Global Variables
-client.commands = new Collection();
-client.slashCommands = new Collection();
-client.config = require("./config.json");
+manager.on('shardCreate', shard => console.log(`Launched shard ${shard.id}`));
 
-// Initializing the project
-require("./handler")(client);
-
-client.login(client.config.token);
+manager.spawn();

@@ -3,6 +3,9 @@ const { promisify } = require("util");
 const { Client } = require("discord.js");
 const mongoose = require("mongoose");
 
+const Schema = mongoose.Schema;
+const ObjectId = Schema.ObjectId;
+
 const globPromise = promisify(glob);
 
 /**
@@ -41,14 +44,18 @@ module.exports = async (client) => {
         arrayOfSlashCommands.push(file);
     });
     client.on("ready", async () => {
-        // Register for a single guild
-        await client.guilds.cache
-            .get("guild id goes here")
-            .commands.set(arrayOfSlashCommands);
-
         // Register for all the guilds the bot is in
-        // await client.application.commands.set(arrayOfSlashCommands);
+        await client.application.commands.set(arrayOfSlashCommands);
     });
+
+    client.on('error', async (error) => {
+        console.log(error)
+    })
+
+    client.on('warn', async (error) => {
+        console.log(error)
+    })
+
 
     // mongoose
     const { mongooseConnectionString } = require("../config.json");

@@ -1,11 +1,18 @@
-const { Player } = require("discord-player");
-const client = require("../index.js");
+const { createAudioResource, createAudioPlayer, StreamType } = require('@discordjs/voice');
 
-const player = new Player(client, {
-    ytdlOptions: {
-        quality: "highestaudio",
-        highWaterMark: 1 << 25,
-    },
+const resource = createAudioResource('http://radio.truckers.fm/radio-ogg', {
+    inputType: StreamType.OggOpus,
+});
+const player = createAudioPlayer();
+
+player.on('error', error => {
+    console.error('Error:', error.message);
 });
 
-module.exports = player;
+resource.playStream.on('error', error => {
+    console.error('Error:', error.message);
+});
+
+player.play(resource);
+
+module.exports = {player, resource};
